@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 import PessoasRequests from "../../../fetch/PessoasRequests";
 import ListaPessoasUtil from "./ListaPessoasUtil";
 import { FaTrashCan } from "react-icons/fa6";
@@ -8,7 +9,8 @@ import style from './ListaPessoas.module.css';
 function ListaPessoas() {
     const [pessoas, setPessoas] = useState([]);
     const util = new ListaPessoasUtil();
-
+    const navegacao = useNavigate();
+    
     useEffect(() => {
         const fetchPessoas = async () => {
             try {
@@ -22,8 +24,10 @@ function ListaPessoas() {
         fetchPessoas();
     }, []);
 
-    const atualizar = () => {
-        // atualizar
+    const atualizar = (pessoa) => {
+        // navegar para a pagina de atualização
+        navegacao('/atualizar', {state: { garrafa: pessoa}, replace: true});
+        
     }
 
     return (
@@ -58,7 +62,7 @@ function ListaPessoas() {
                                         <FaTrashCan  onClick={() => alert('deletar')} className={style.pTableBodyButtons}/>
                                     </td>
                                     <td>
-                                        <AiFillEdit  onClick={() => alert('atualizar')} className={style.pTableBodyButtons}/>
+                                        <AiFillEdit  onClick={() => atualizar(pessoa)} className={style.pTableBodyButtons}/>
                                     </td>
                                 </tr>
                             ))}
